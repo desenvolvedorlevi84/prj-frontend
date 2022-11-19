@@ -1,20 +1,13 @@
-// request via JavaScript ajax 4 passos
-// 01 criar a váriavel
 xhttp = new XMLHttpRequest();
 var lista;
-var api = "https://dev-isa01.herokuapp.com/api/produto/";
+var api = "https://dev-isa02.herokuapp.com/api/produto/";
 
 function listar() {
-    // 02 definição do nosso request (forma e endereço)
     xhttp.open("GET", api);
-    // 03 manda de fato a request
     xhttp.send();
-    // 04 execução quando tiver a devolutiva do request
     xhttp.onload = function () {
         lista = this.responseText;
-        // console.log(lista);
-        lista = JSON.parse(lista);
-        // console.log(lista);
+        lista = JSON.parse(lista);    
         texto = "";
         i = 0;
         for (const u of lista) {
@@ -33,24 +26,20 @@ function editar(i) {
 }
 
 function gravar() {
-    //alert("Estamos dentro da function incluir");
     var item = {};
     item.produto = document.getElementById("produto").value;
     item.descricao = document.getElementById("descricao").value;
-    // console.log(usuario);
-
     item.id = document.getElementById("id").value;
     if (item.id > 0) {
-        acao = "PUT"; // alteração
+        acao = "PUT"; 
     } else {
-        acao = "POST"; // incluir
+        acao = "POST";
     }
 
     xhttp.open(acao, api);
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.send(JSON.stringify(item));
     xhttp.onload = function () {
-        // console.log(this.responseText);
         listar();
         limpar();
     }
