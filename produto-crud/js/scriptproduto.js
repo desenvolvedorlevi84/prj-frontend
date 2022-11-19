@@ -1,6 +1,6 @@
 xhttp = new XMLHttpRequest();
 var lista;
-var api = "";
+var api = "https://dev-isa01.herokuapp.com/api/produto/";
 
 function listar() {
     xhttp.open("GET", api);
@@ -11,7 +11,7 @@ function listar() {
         texto = "";
         i = 0;
         for (const u of lista) {
-            texto += `<tr onclick='editar(${i})'><td>${u.produto}</td><td>${u.descricao}</td></tr>`;
+            texto += `<tr onclick='editar(${i})'><td>${u.nome}</td><td>${u.descricao}</td><td>${u.valor}</tr>`;
             i++;
         }
         document.getElementById('lista').innerHTML = texto;
@@ -20,15 +20,17 @@ function listar() {
 
 function editar(i) {
     u = lista[i];
-    document.getElementById("produto").value = u.produto;
+    document.getElementById("nome").value = u.nome;
     document.getElementById("descricao").value = u.descricao;
+    document.getElementById("valor").value = u.valor;
     document.getElementById("id").value = u.id;
 }
 
 function gravar() {
     var item = {};
-    item.produto = document.getElementById("produto").value;
+    item.nome = document.getElementById("nome").value;
     item.descricao = document.getElementById("descricao").value;
+    item.valor = document.getElementById("valor").value;
     item.id = document.getElementById("id").value;
     if (item.id > 0) {
         acao = "PUT"; 
@@ -46,8 +48,9 @@ function gravar() {
 }
 
 function limpar() {
-    document.getElementById("produto").value = "";
+    document.getElementById("nome").value = "";
     document.getElementById("descricao").value = "";
+    document.getElementById("valor").value = "";
     document.getElementById("id").value = "";
 }
 
