@@ -1,7 +1,6 @@
 xhttp = new XMLHttpRequest();
 var lista;
-var api = "https://dev-isa01.herokuapp.com/api/produto/";
-
+var api = "http://localhost:8080/api/produto/";
 function listar() {
     xhttp.open("GET", api);
     xhttp.send();

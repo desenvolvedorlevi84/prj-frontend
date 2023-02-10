@@ -2,7 +2,7 @@
 // 01 criar a váriavel
 xhttp = new XMLHttpRequest();
 var lista;
-var api = "https://dev-isa01.herokuapp.com/api/usuario/";
+var api = "http://localhost:8080/api/produto/";
 
 function listar() {
     // 02 definição do nosso request (forma e endereço)
