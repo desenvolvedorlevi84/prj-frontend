@@ -132,12 +132,26 @@
     </div>
 
     <div id="container">
+      <div class="ls-produto">
+        <table>
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Valor Unitário</th>
+              <th>Quantidade</th>
+              <th>Valor Total</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    
       <div class="ls-produto" id="lsProduto"></div>
       
-        <div  class="fa" onclick="alert(0)">
-            <i style="font-size:40px; margin-right: 8px;">&#xf07a;</i>
-            <span id="qt-produto">0</span>
-        </div>
+          <div  class="fa" onclick="carrinho()">
+              <i style="font-size:40px; margin-right: 8px;">&#xf07a;</i>
+              <span id="qt-produto">0</span>
+          </div>
 
     </div>
 
@@ -191,6 +205,25 @@
         }
 
         buscarProduto();
+
+        function carrinho() {
+          tbody = "";
+          for(p of lsProduto){
+            if(p.carrinho){
+              p.quantidade = 1;
+              p.valorParcial = p.valor * p.quantidade;
+              tbody += `<tr>
+                <td>${p.nome}</td>
+                <td>${p.valor}</td>
+                <td>${p.quantidade}</td>
+                <td>${p.valorParcial}</td>
+              </tr>`
+            }
+          }
+
+        document.getElementsByTagName("tbody")[0].innerHTML = tbody;
+          
+        }
 
     </script>
 
