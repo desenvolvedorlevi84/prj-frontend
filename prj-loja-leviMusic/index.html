@@ -130,6 +130,50 @@
           margin: -85px 0px -2px 10px;
         }
       }
+
+      tr {
+        height: 30px;
+        background-color: rgb(185, 185, 185);
+        text-align: center;
+      }
+
+      tr span {
+        background-color: rgb(119, 119, 119);
+        height: 100%;
+        padding: 6%;
+        margin-right: 2px;
+        margin-left: 18px;
+        cursor: pointer;
+        float: left;
+        width: 20px;
+        border-radius: 50%;
+        box-shadow: 2px 0px 2px 0px black;
+      }
+
+      table {
+        width: 100%;
+      }
+
+      label {
+        font-size: larger;
+      }
+
+      #nome {
+        background-color: rgb(185, 185, 185);
+        width: 70%;
+        height: 30px;
+        border: none;
+      }
+
+      #bt-enviar {
+        background-color: rgb(185, 185, 185);
+        box-shadow: 2px 0px 2px 0px black;
+        border-radius: 10px;
+        font-size: 14px;
+        cursor: pointer;
+        padding: 5px;
+      }
+
     </style>
 
     <div id="banner">
@@ -148,11 +192,13 @@
               <th>Valor Total</th>
             </tr>
           </thead>
+
           <tbody></tbody>
+          
         </table>
         <label for="nome">Nome</label><br />
-        <input type="text" id="nome" /><br />
-        <input type="button" value="Enviar Pedido" onclick="enviarWhatsApp()" />
+        <input type="text" id="nome" />
+        <input type="button" id="bt-enviar" value="Enviar Pedido" onclick="enviarWhatsApp()" />
       </div>
 
       <div class="ls-produto" id="lsProduto"></div>
@@ -230,23 +276,23 @@
           if (p.carrinho) {
             tbody += `<tr>
                 <td>${p.nome}</td>
-                <td>${p.valor}</td>
+                <td>${p.valor.toFixed(3)}</td>
                 <td>${p.quantidade}</td>
-                <td>${p.valorParcial}</td>
+                <td>${p.valorParcial.toFixed(3)}</td>
                 <td><span onclick = "add(${i}, ${it}, 1)">+</span>
                 <span onclick = "add(${i}, ${it}, -1)">-</span></td>
               </tr>`;
             it++;
             valorFinal += p.valorParcial;
-            pedido += `${p.nome} ${p.valor} x (${p.quantidade}) = ${p.valorParcial}\n`;
+            pedido += `${p.nome} ${p.valor} x (${p.quantidade}) = ${p.valorParcial.toFixed(3)}\n`;
           }
           i++;
         }
         tbody += `
-          <tr><td>Valor Final</td><td>${valorFinal}</td></tr>
+          <tr><td colspan="3">Valor Final</td><td>${valorFinal.toFixed(3)}</td></tr>
           `;
 
-        pedido += `Valor Final = ${valorFinal}\n`;
+        pedido += `Valor Final = ${valorFinal.toFixed(3)}\n`;
         document.getElementsByTagName("tbody")[0].innerHTML = tbody;
       }
 
@@ -266,6 +312,11 @@
         p = lsProduto[i];
         p.quantidade = p.quantidade + opc;
         p.valorParcial = p.quantidade * p.valor;
+        if(p.quantidade == 0){
+          p.carrinho = false;
+          elemento = document.getElementsByClassName("produto")[i];
+          addCarrinho(elemento,i);
+        }
         carrinho();
         //tr = document.getElementsByTagName("tr")[it];
         //tr.getElementsByTagName("td")[2].innerHTML = p.quantidade;
@@ -275,12 +326,23 @@
       function enviarWhatsApp() {
         fone = "5561983022551";
         nome = document.getElementById("nome").value;
+
+        if(nome == '') {
+          alert("Nome obrigatório");
+          return false;
+        }
+
+        if(qtCarrinho == 0) {
+          alert("Escolha 1 produto");
+          return false;
+        }
+
         pedido += `Cliente: ${nome}`;
         pedido = encodeURI(pedido);
         link = `https://api.whatsapp.com/send?phone=${fone}&text=${pedido}`;
-        window.open(link,'_blank');
+        window.open(link, "_blank");
       }
-
+      
     </script>
   </body>
 </html>
